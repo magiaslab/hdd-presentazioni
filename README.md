@@ -13,6 +13,17 @@ Si chiede a Claude, per esempio, «prepara le slide HDD per il mio intervento su
 - `librerie/`: copie delle librerie per la versione senza internet.
 - `fonts/`: i caratteri ufficiali HDD. Switzer non è nella repo per la licenza Fontshare: lo script lo scarica da Fontshare la prima volta.
 
+## Modello per PowerPoint e Google Slides
+
+Per chi preferisce le slide classiche c'è `modelli-classici/modello-hdd.pptx`: 12 slide con la stessa grafica (copertina con il logo, divisorio, immagine e concetto, numeri, frase, barre, tabella, tre colonne, cinque azioni, foto a tutta pagina, invito con QR, grazie). Si duplica la slide che serve e si cambiano i testi. Le note sotto ogni slide spiegano a cosa serve.
+
+Download diretto: https://github.com/magiaslab/hdd-presentazioni/raw/main/modelli-classici/modello-hdd.pptx
+
+- **PowerPoint:** si apre così com'è.
+- **Google Slides:** File › Importa slide, oppure caricalo su Drive e aprilo con Presentazioni Google.
+- **Caratteri:** per vederlo giusto installa Switzer (gratis su fontshare.com) e Newsreader (gratis su Google Fonts). Senza, PowerPoint usa un carattere simile. Su Google Slides Newsreader c'è già. Switzer no, quindi lì conviene scegliere Hanken Grotesk come sostituto per il testo.
+- `crea_pptx.py` rigenera il file (serve python-pptx). I loghi in PNG sono nella stessa cartella.
+
 ## Scaricare l'ultima versione
 
 Lo zip aggiornato è sempre qui:
