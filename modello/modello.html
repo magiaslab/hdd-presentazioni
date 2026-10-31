@@ -1,0 +1,828 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Titolo della presentazione</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Sistema grafico HDD per presentazioni. Colori, caratteri e componenti: non cambiarli, cambia solo i contenuti. */
+/*__FONT__*/
+@font-face{font-family:"Hanken Grotesk";src:url(../fonts/hanken-grotesk-700.woff2) format("woff2");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Newsreader";src:url(../fonts/newsreader-300-italic.woff2) format("woff2");font-weight:300;font-style:italic;font-display:swap}
+@font-face{font-family:"Newsreader";src:url(../fonts/newsreader-400-italic.woff2) format("woff2");font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:"Switzer";src:url(../fonts/switzer-400.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Switzer";src:url(../fonts/switzer-500.woff2) format("woff2");font-weight:500;font-style:normal;font-display:swap}
+/*__FINE_FONT__*/
+:root{
+  --nebbia:#E6EAEE; --inchiostro:#14181D; --sec:#4A525C; --accento:#123A5C; --accento-h:#1D5480;
+  --fascia:#15191D; --fascia-t:#EEF1F4; --fascia-s:#A3AEBA; --fascia-riga:#2B3239;
+  --lav:#A9ACD6; --lime:#D4EB86; --cipria:#EBDDD7; --az:#7793C2;
+  --carta:#FBFCFD; --riga:#D5DBE2; --spento:#C3CAD2; --allarme:#A8361F; --allarme-f:#F6D9D1; --ok:#2F6B3A;
+  --f-testo:"Switzer", "Helvetica Neue", Arial, sans-serif;
+  --f-seguito:"Newsreader", Georgia, "Times New Roman", serif;
+  --f-mono:ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --t-titolo:clamp(34px, min(4.6vw, 8.2vh), 78px); --t-testo:clamp(16px, min(1.4vw, 2.5vh), 22px); --t-piccolo:clamp(13px, 1vw, 15px);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:auto}
+body{margin:0;background:var(--nebbia);color:var(--inchiostro);font-family:var(--f-testo);font-size:var(--t-testo);line-height:1.5;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--tono-testata,var(--nebbia))}
+h1,h2,h3,p,ul,ol{margin:0}
+.slide{min-height:100svh;display:flex;align-items:center;padding-block:clamp(78px,11vh,130px) clamp(44px,6vh,84px);padding-left:max(16px, env(safe-area-inset-left,0px));padding-right:max(16px, env(safe-area-inset-right,0px));position:relative;overflow:hidden}
+.dentro{width:100%;max-width:1320px;margin-inline:auto;display:flex;flex-direction:column;gap:clamp(16px,3vh,40px);padding-inline:clamp(0px,3vw,48px)}
+.scura{background:var(--fascia);color:var(--fascia-t)}
+.blu{background:var(--accento);color:var(--fascia-t)}
+.rosa{background:var(--cipria)}
+.occhiello{font-size:var(--t-piccolo);letter-spacing:.08em;text-transform:uppercase;color:var(--sec)}
+.scura .occhiello,.blu .occhiello{color:var(--fascia-s)}
+.titolo{font-weight:500;font-size:var(--t-titolo);line-height:1.04;letter-spacing:-.02em;text-wrap:balance}
+.seguito{display:block;font-family:var(--f-seguito);font-style:italic;font-weight:300;letter-spacing:-.01em;color:var(--accento)}
+.scura .seguito{color:var(--lav)} .blu .seguito{color:var(--lime)}
+.sottotitolo{font-family:var(--f-testo);font-weight:500;font-size:clamp(20px, min(2vw, 3.6vh), 32px);line-height:1.25;letter-spacing:-.01em;max-width:24em;text-wrap:balance}
+.testo{max-width:34em;color:var(--sec)}
+.scura .testo,.blu .testo{color:var(--fascia-s)}
+.testo b{color:var(--inchiostro);font-weight:500} .scura .testo b,.blu .testo b{color:var(--fascia-t)}
+.colonna{display:flex;flex-direction:column;gap:clamp(12px,2vh,24px);min-width:0}
+.due{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(32px,5vw,88px);align-items:center}
+.due.inverti>:first-child{order:2}
+.didascalia{font-size:var(--t-piccolo);color:var(--sec);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.scura .didascalia,.blu .didascalia{color:var(--fascia-s)}
+.ric{font-size:12px;letter-spacing:.08em;text-transform:uppercase;background:var(--cipria);color:var(--inchiostro);padding:3px 9px;border-radius:99px}
+.prova{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;align-items:baseline;border-top:1px solid var(--riga);padding-top:16px}
+.scura .prova{border-color:var(--fascia-riga)}
+.prova .n{font-weight:500;font-size:clamp(34px,3.6vw,56px);letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums;color:var(--accento)}
+.scura .prova .n{color:var(--lime)}
+.prova p{font-size:var(--t-testo);color:var(--sec)} .scura .prova p{color:var(--fascia-s)}
+.testata{position:fixed;top:0;left:0;right:0;z-index:20;padding-top:calc(env(safe-area-inset-top,0px) + 18px);padding-bottom:14px;padding-left:max(16px, env(safe-area-inset-left,0px));padding-right:max(16px, env(safe-area-inset-right,0px));background:color-mix(in srgb, var(--tono-testata,var(--nebbia)) 86%, transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:background .4s}
+.testata ol{list-style:none;padding:0;max-width:1320px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(6px,1vw,14px)}
+.testata li{display:flex;flex-direction:column;gap:7px;font-size:14px;color:var(--sec);transition:color .4s}
+.testata li::before{content:"";height:4px;border-radius:2px;background:var(--spento);transition:background .5s, transform .5s;transform-origin:left}
+.testata li.fatta::before{background:var(--az)}
+.testata li.ora{color:var(--inchiostro);font-weight:500}
+.testata li.ora::before{background:var(--accento)}
+body[data-tono="scuro"] .testata li{color:var(--fascia-s)}
+body[data-tono="scuro"] .testata li::before{background:var(--fascia-riga)}
+body[data-tono="scuro"] .testata li.fatta::before{background:var(--az)}
+body[data-tono="scuro"] .testata li.ora{color:var(--fascia-t)}
+body[data-tono="scuro"] .testata li.ora::before{background:var(--lime)}
+.testata{transition:background .4s, opacity .5s, transform .5s}
+body:not([data-passo]) .testata,body[data-passo="0"] .testata{opacity:0;transform:translateY(-100%);pointer-events:none}
+.contatore{position:fixed;right:max(16px, env(safe-area-inset-right,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 16px);z-index:20;font-size:14px;font-variant-numeric:tabular-nums;color:var(--sec);display:flex;gap:8px;align-items:center}
+body[data-tono="scuro"] .contatore{color:var(--fascia-s)}
+.contatore button{font:inherit;color:inherit;background:transparent;border:1px solid currentColor;border-radius:99px;width:34px;height:34px;cursor:pointer;opacity:.75}
+.contatore button:hover{opacity:1}
+:focus-visible{outline:3px solid var(--az);outline-offset:3px}
+.schermo{background:var(--carta);color:var(--inchiostro);border-radius:18px;box-shadow:0 40px 90px -40px rgba(20,24,29,.45),0 0 0 1px rgba(20,24,29,.07);overflow:hidden;font-size:16px;line-height:1.45;max-width:100%}
+.scura .schermo,.blu .schermo{box-shadow:0 40px 90px -30px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.06)}
+.cornice{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--riga);background:#F1F3F6;font-size:13px;color:var(--sec)}
+.cornice i{width:10px;height:10px;border-radius:50%;background:var(--spento);flex:none}
+.corpo{padding:clamp(16px,2vw,26px);display:flex;flex-direction:column;gap:14px}
+.osc{display:inline-block;height:.8em;border-radius:4px;background:#D9DEE5;vertical-align:-.05em}
+.fonte{display:inline-flex;gap:6px;align-items:center;font-size:12.5px;border:1px solid var(--riga);border-radius:99px;padding:2px 10px;color:var(--sec);background:#fff}
+.acceso{outline:2px solid var(--accento);outline-offset:4px;border-radius:10px}
+.bolla{align-self:flex-end;background:#ECEFF3;border-radius:18px 18px 4px 18px;padding:10px 16px;max-width:85%}
+.scrive{font-size:13px;color:var(--sec)}
+.cerca{display:flex;align-items:center;gap:10px;border:1px solid var(--riga);border-radius:99px;padding:9px 16px;background:#fff}
+.cerca svg{flex:none}
+.risultato{display:flex;flex-direction:column;gap:3px;padding:10px 12px}
+.risultato .url{font-size:12.5px;color:var(--sec)}
+.risultato .tit{font-size:18px;color:#1A3F8F}
+.risultato .desc{font-size:14px;color:var(--sec)}
+.bottone{display:inline-block;background:var(--accento);color:#fff;border-radius:99px;padding:7px 14px;font-size:13px;font-weight:500;white-space:nowrap}
+.bottone.vuoto{background:transparent;color:var(--accento);border:1px solid var(--accento)}
+.chip{display:inline-block;border:1px solid var(--riga);border-radius:8px;padding:5px 10px;font-size:13px;background:#fff}
+.grande{font-size:clamp(56px,6vw,92px);font-weight:500;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.risultati{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(24px,4vw,64px)}
+.risultati .n{font-size:clamp(96px,13vw,210px);font-weight:500;letter-spacing:-.05em;line-height:.9;font-variant-numeric:tabular-nums;color:var(--lime)}
+.risultati p{color:var(--fascia-t);font-size:clamp(20px,1.8vw,28px)}
+.prima{display:flex;gap:16px;align-items:baseline;flex-wrap:wrap;color:var(--fascia-s);border-top:1px solid rgba(238,241,244,.18);padding-top:18px}
+.elenco{list-style:none;padding:0;display:flex;flex-direction:column}
+.elenco li{display:grid;grid-template-columns:clamp(48px,6vw,96px) 1fr;gap:16px;align-items:baseline;padding:clamp(18px,3vh,30px) 0;border-top:1px solid var(--riga);font-size:clamp(22px,2.4vw,38px);line-height:1.25;letter-spacing:-.01em}
+.elenco li:last-child{border-bottom:1px solid var(--riga)}
+.elenco .num{font-family:var(--f-seguito);font-style:italic;font-weight:300;color:var(--accento);font-size:1.4em}
+.confronto{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.confronto>div{border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:14px;min-height:220px}
+.bottone-bello{align-self:flex-start;background:linear-gradient(135deg,var(--accento),var(--accento-h));color:#fff;border-radius:99px;padding:14px 26px;font-weight:500;font-size:18px;box-shadow:0 12px 30px -12px rgba(18,58,92,.7)}
+.virgolette{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(16px,2.4vw,32px)}
+.virgolette blockquote{margin:0;font-family:var(--f-seguito);font-style:italic;font-weight:300;font-size:clamp(28px,3.2vw,52px);line-height:1.15;padding:clamp(22px,3vw,40px);border-radius:22px;border:1px solid var(--riga)}
+.virgolette blockquote.rischio{border:1.5px dashed var(--allarme);color:var(--allarme)}
+.parole{font-family:var(--f-seguito);font-style:italic;font-weight:400;font-size:clamp(40px,6vw,104px);line-height:1.05;letter-spacing:-.02em;max-width:15em;text-wrap:balance}
+.cinque{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;list-style:none;padding:0}
+.cinque li{background:#1E2329;border-radius:18px;padding:clamp(18px,2vw,26px);display:flex;flex-direction:column;gap:12px;font-size:clamp(16px,1.25vw,20px);line-height:1.4}
+.cinque .num{font-family:var(--f-seguito);font-style:italic;font-weight:300;font-size:44px;line-height:1;color:var(--lav)}
+.passi{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(10px,1.6vw,22px);list-style:none;padding:0}
+.passi li{display:flex;flex-direction:column;gap:10px}
+.passi li::before{content:"";height:10px;border-radius:5px;background:var(--c)}
+.passi b{font-weight:500;font-size:clamp(22px,2.2vw,34px);letter-spacing:-.01em}
+.passi span{color:var(--sec);font-size:var(--t-testo)}
+.logo-barre{position:absolute;right:max(16px,6vw);bottom:0;width:clamp(180px,26vw,380px);height:auto;pointer-events:none}
+.copertina .titolo{font-size:clamp(44px,6.4vw,108px);max-width:11em}
+.copertina .dentro{position:relative;z-index:1}
+.riquadro{border:1px solid rgba(238,241,244,.18);border-radius:18px;padding:clamp(16px,2.6vh,30px) clamp(18px,2vw,32px);background:rgba(10,20,32,.28)}
+.riquadro-capo{margin:0 0 clamp(8px,1.4vh,16px);font-size:var(--t-piccolo);letter-spacing:.08em;text-transform:uppercase;color:var(--fascia-s)}
+.riquadro ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:clamp(6px,1.2vh,14px)}
+.riquadro li{font-size:var(--t-testo);line-height:1.35;color:var(--fascia-t);padding-bottom:clamp(6px,1.2vh,14px);border-bottom:1px solid rgba(238,241,244,.1)}
+.riquadro li:last-child{border-bottom:0;padding-bottom:0}
+.riquadro b{font-weight:500;color:var(--lime);margin-right:.25em}
+.parole.media{font-size:clamp(36px,4.6vw,80px)}
+.passi-chiari span{color:var(--fascia-s)}
+.passi-chiari b{font-size:clamp(18px, min(1.8vw, 3.4vh), 30px)}
+.riepilogo .dentro{gap:clamp(12px,2.4vh,34px)}
+.slide[data-passo="0"]{padding-top:clamp(44px,8vh,110px)}
+.passi-chiari b{color:var(--fascia-t)}
+.finale{display:flex;flex-direction:column;gap:0;padding-top:clamp(8px,2vh,24px);border-top:1px solid var(--fascia-riga)}
+.finale p{margin:0;font-family:var(--f-seguito);font-style:italic;line-height:1.02;letter-spacing:-.02em}
+.finale-1{font-weight:300;font-size:clamp(26px, min(3.6vw, 6.4vh), 64px);color:var(--fascia-s)}
+.finale-2{font-weight:400;font-size:clamp(44px, min(7vw, 12vh), 124px);color:var(--fascia-t)}
+.finale-3{font-weight:400;font-size:clamp(26px, min(3.6vw, 6.4vh), 64px);color:var(--lime)}
+.tre{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2.4vw,36px)}
+.tre>div{border-top:1px solid var(--fascia-riga);padding-top:clamp(10px,2vh,18px);display:flex;flex-direction:column;gap:clamp(4px,1vh,8px)}
+.tre .sigla{font-size:var(--t-piccolo);letter-spacing:.1em;text-transform:uppercase;color:var(--lime);font-weight:500}
+.tre h3{font-weight:500;font-size:clamp(22px, min(2.1vw, 4vh), 34px);letter-spacing:-.01em;color:var(--fascia-t)}
+.tre p:last-child{color:var(--fascia-s);font-size:var(--t-testo);line-height:1.45}
+.spunte{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+.spunte li{border:1px solid var(--fascia-riga);border-radius:99px;padding:8px 16px;font-size:var(--t-piccolo);color:var(--fascia-t)}
+.spunte li::before{content:"✓";color:var(--lime);margin-right:8px}
+.tela-3d{position:absolute;inset:0;width:100%;height:100%;z-index:0;display:block}
+.con-3d .dentro{position:relative;z-index:1}
+@media (min-width:900px){ .con-3d .dentro>*{max-width:46%} }
+@media (max-width:899px){ .tela-3d{opacity:.35} }
+.foto-viva::before{background:linear-gradient(90deg,rgba(21,25,29,.85) 0%,rgba(21,25,29,.45) 40%,rgba(21,25,29,0) 70%),linear-gradient(0deg,rgba(21,25,29,.45) 0%,rgba(21,25,29,0) 40%)}
+.foto-viva .foto-sfondo{object-position:30% 50%;will-change:transform,filter}
+.foto-viva .dentro{justify-content:flex-end;min-height:62vh}
+.frase-sopra{margin:0;font-weight:500;font-size:clamp(26px, min(3.2vw, 5.6vh), 54px);letter-spacing:-.02em;color:var(--fascia-t)}
+.frase-grande{margin:0;text-shadow:0 4px 40px rgba(0,0,0,.35);font-family:var(--f-seguito);font-style:italic;font-weight:400;font-size:clamp(52px, min(8vw, 14vh), 148px);line-height:.98;letter-spacing:-.03em;color:#fff;max-width:9em;text-wrap:balance}
+.frase-grande span{display:inline-block}
+.foto-viva .testo{color:var(--fascia-t);max-width:30em}
+.rosa .passi li::before{box-shadow:inset 0 0 0 1px rgba(20,24,29,.18)}
+.rosa .cinque li{background:rgba(255,255,255,.55);color:var(--inchiostro)}
+.rosa .cinque .num{color:var(--accento)}
+.blu .passi-chiari span{color:var(--fascia-s)}
+.parole.media{font-size:clamp(34px, min(4.6vw, 8vh), 80px)}
+.filo{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;align-items:stretch;gap:10px}
+.filo li{display:flex;flex-direction:column;gap:4px;background:rgba(255,255,255,.6);border-radius:14px;padding:12px 18px;position:relative}
+.filo li:not(:last-child)::after{content:"→";position:absolute;right:-17px;top:50%;transform:translateY(-50%);color:var(--sec);font-size:18px;z-index:1}
+.filo li+li{margin-left:14px}
+.filo span{font-size:var(--t-piccolo);color:var(--sec);letter-spacing:.04em;text-transform:uppercase}
+.filo b{font-weight:500;font-size:var(--t-testo)}
+.filo .vuoto{color:var(--sec);font-weight:400;font-style:italic}
+.filo .fuori{color:var(--allarme)}
+.tabella{display:flex;flex-direction:column}
+.riga-t{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1fr) minmax(0,1fr);gap:clamp(12px,2vw,32px);padding:clamp(8px,1.6vh,16px) 0;border-top:1px solid var(--fascia-riga);font-size:var(--t-testo);line-height:1.4}
+.riga-t b{font-weight:500;color:var(--fascia-t)}
+.riga-t span:nth-child(2){color:var(--fascia-s)}
+.riga-t span:nth-child(3){color:var(--fascia-t)}
+.riga-t.intesta{border-top:0;padding-bottom:4px;font-size:var(--t-piccolo);letter-spacing:.08em;text-transform:uppercase}
+.riga-t.intesta span:nth-child(3){color:var(--lime)}
+@media (max-width:700px){ .riga-t{grid-template-columns:minmax(0,1fr) minmax(0,1fr)} .riga-t>:first-child{grid-column:1 / -1} .riga-t.intesta>:first-child{display:none} }
+.con-foto .foto-sfondo{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:center 40%}
+.con-foto::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(21,25,29,.92) 0%,rgba(21,25,29,.78) 45%,rgba(21,25,29,.35) 100%)}
+.con-foto .dentro{position:relative;z-index:2}
+.con-foto .parole,.con-foto .titolo{color:#fff}
+.con-foto .testo{color:var(--fascia-t);max-width:34em}
+.credito-foto{position:absolute;z-index:2;left:max(16px,3vw);bottom:clamp(12px,3vh,28px);margin:0;font-size:var(--t-piccolo);color:var(--fascia-s)}
+.copertina .logo-barre{width:clamp(130px,15vw,230px);opacity:.75}
+.suggerimento{font-size:var(--t-piccolo);color:var(--fascia-s);display:flex;gap:10px;align-items:center}
+kbd{font-family:var(--f-testo);border:1px solid currentColor;border-radius:6px;padding:1px 7px;font-size:12px}
+.barre-prezzo{display:flex;flex-direction:column;gap:22px}
+.bp{display:grid;grid-template-columns:7.5em 1fr auto;gap:16px;align-items:center}
+.bp span{color:var(--fascia-s)}
+.bp b{font-weight:500;font-size:clamp(28px,3vw,44px);font-variant-numeric:tabular-nums;min-width:3.6em;text-align:right}
+.traccia{height:18px;background:var(--fascia-riga);border-radius:9px;overflow:hidden}
+.pieno{height:100%;width:var(--l);border-radius:9px;transform-origin:left}
+.cattura{display:block;width:100%;height:auto;max-width:100%}
+.elenco.scuro li{border-color:var(--fascia-riga)}
+.elenco.scuro .num{color:var(--lav)}
+.ieri-oggi{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(24px,4vw,64px);align-items:start}
+.cerca.grossa{font-size:clamp(20px,2vw,28px);padding:14px 22px}
+.bolla.grossa{align-self:stretch;max-width:none;font-size:clamp(20px,1.9vw,28px);line-height:1.5;padding:22px 26px;background:var(--carta);box-shadow:0 30px 70px -40px rgba(20,24,29,.45)}
+.bolla mark{background:transparent;color:inherit;border-radius:6px;padding:0 3px;box-shadow:inset 0 -.5em 0 var(--lime)}
+.cifre{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3vw,48px)}
+.cifre .n{font-size:clamp(64px,8vw,132px);font-weight:500;letter-spacing:-.04em;line-height:1;color:var(--lime);font-variant-numeric:tabular-nums}
+.cifre p+p{color:var(--fascia-s);margin-top:10px}
+.barre-fonti{display:flex;flex-direction:column;gap:clamp(10px,1.6vh,16px)}
+.riga-fonte{display:grid;grid-template-columns:minmax(0,15em) minmax(0,1fr) 3.4em;gap:20px;align-items:center;font-size:clamp(18px,1.6vw,24px)}
+.riga-fonte .nome{color:var(--sec)}
+.riga-fonte b{font-weight:500;text-align:right;font-variant-numeric:tabular-nums}
+.riga-fonte.evidenza .nome,.riga-fonte.evidenza b{color:var(--accento);font-weight:500}
+.traccia-f{display:block;height:clamp(18px,2.4vh,26px);background:#D8DEE5;border-radius:99px;overflow:hidden}
+.traccia-f i{display:block;height:100%;width:var(--l);border-radius:99px;transform-origin:left}
+.due-testi{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(20px,3vw,48px)}
+.tre-catture{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,2vw,28px)}
+.tre-catture figure{margin:0;display:flex;flex-direction:column;gap:12px;min-width:0}
+.tre-catture figcaption{font-size:clamp(15px,1.2vw,19px);color:var(--sec);line-height:1.45}
+.tre-catture figcaption b{display:block;font-weight:500;color:var(--inchiostro);font-size:clamp(18px,1.5vw,24px);margin-bottom:4px}
+.tre-catture figcaption span{font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;color:var(--accento);margin-right:6px}
+.riga-fonte.allarme .nome,.riga-fonte.allarme b{color:var(--allarme);font-weight:500}
+.barre-fonti.stretta{gap:8px}
+.barre-fonti.stretta .riga-fonte{grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;font-size:clamp(16px,1.3vw,20px)}
+.barre-fonti.stretta .traccia-f{height:14px}
+.barre-fonti.stretta .traccia-f{grid-column:1 / -1;grid-row:2}
+.titolo.grande{font-size:clamp(44px, min(6.4vw, 11vh), 112px)}
+.chiusa{margin:0;font-family:var(--f-seguito);font-style:italic;font-size:clamp(26px, min(2.8vw, 5vh), 46px);line-height:1.1;color:var(--accento);text-wrap:balance}
+.confronto.piccolo>div{min-height:0;padding:16px;gap:10px}
+.confronto.piccolo .bottone-bello{padding:10px 20px;font-size:16px}
+.confronto.piccolo .voce-lettore{min-height:1.4em;font-size:clamp(16px,1.4vw,21px)}
+.confronta-foto{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:16/10;max-width:100%;box-shadow:0 40px 90px -40px rgba(20,24,29,.55),0 0 0 1px rgba(20,24,29,.08);--taglio:50%;touch-action:pan-y}
+.confronta-foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}
+.sopra-foto{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--taglio)) 0 0)}
+.confronta-foto::after{content:"";position:absolute;top:0;bottom:0;left:var(--taglio);width:3px;margin-left:-1.5px;background:#fff;box-shadow:0 0 0 1px rgba(20,24,29,.25);pointer-events:none}
+.et{position:absolute;top:12px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;background:rgba(20,24,29,.78);color:#fff;padding:4px 10px;border-radius:99px;pointer-events:none}
+.et-prima{left:12px} .et-dopo{right:12px;background:var(--lime);color:var(--inchiostro)}
+.maniglia{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
+.maniglia:focus-visible+*{outline:none}
+.confronta-foto:focus-within{outline:3px solid var(--az);outline-offset:3px}
+.metriche{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 24px}
+.metriche div{display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--riga);padding-top:10px}
+.scura .metriche div{border-color:var(--fascia-riga)}
+.metriche span{font-size:var(--t-piccolo);color:var(--sec)} .scura .metriche span{color:var(--fascia-s)}
+.metriche b{font-weight:500;font-size:clamp(20px,1.9vw,30px);letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.metriche em{font-style:normal;color:var(--ok)} .scura .metriche em{color:var(--lime)}
+.regole{list-style:none;padding:0;display:flex;flex-direction:column;gap:0}
+.regole li{border-top:1px solid var(--fascia-riga);padding:12px 0;font-size:clamp(17px,1.4vw,22px)}
+.regole li::before{content:"粋";font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;color:var(--lav);margin-right:12px;font-size:.85em}
+.esito .quote-canali div{transition:flex-grow .6s cubic-bezier(.2,.8,.2,1)}
+.esito .quote-canali div:nth-child(2){color:var(--inchiostro)}
+.qr-box{align-items:center}
+.qr{background:#fff;padding:18px;border-radius:20px;width:min(340px,80vw);aspect-ratio:1;display:flex;align-items:center;justify-content:center;box-shadow:0 30px 80px -30px rgba(0,0,0,.6);max-width:100%}
+.qr svg{width:100%;height:100%;display:block}
+@media (max-width:900px){
+  .riga-fonte{grid-template-columns:minmax(0,1fr) auto;gap:6px 12px}
+  .riga-fonte .traccia-f{grid-column:1 / -1;grid-row:2}
+  .ieri-oggi,.cifre,.metriche{grid-template-columns:minmax(0,1fr)}
+  .due,.due.inverti{grid-template-columns:minmax(0,1fr)}
+  .due.inverti>:first-child{order:0}
+  .risultati,.virgolette,.confronto{grid-template-columns:minmax(0,1fr)}
+  .cinque{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .passi{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tre{grid-template-columns:minmax(0,1fr)}
+  .testata li{font-size:0;gap:0}
+  .logo-barre{opacity:.35}
+}
+@media (max-height:820px){
+  .corpo{gap:9px}
+  .confronto.piccolo>div{padding:10px 14px;gap:6px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}.voce{display:flex;flex-direction:column;gap:5px;padding:10px 12px;border-radius:10px}
+.voce .nome{font-weight:500}
+
+.logo-hdd{align-self:flex-start;height:clamp(34px,5.2vh,58px);width:auto;aspect-ratio:1195/380;overflow:visible;display:block}
+.logo-hdd .lb{fill:#444443} .logo-hdd .lb-lav{fill:#A9ACD6} .logo-hdd .lb-lime{fill:#D4EB86} .logo-hdd .lb-cipria{fill:#EBDDD7}
+.logo-hdd .lt{fill:#222;font-family:"Hanken Grotesk",system-ui,sans-serif;font-weight:700}
+.logo-hdd .lt-h{font-size:128px;letter-spacing:-1.2px} .logo-hdd .lt-s{font-size:132px;letter-spacing:-8px}
+.logo-hdd .lt-d{fill:#7793C2;font-family:"Newsreader",Georgia,serif;font-style:italic;font-weight:400;font-size:135px;letter-spacing:-5.5px}
+.scura .logo-hdd .lt,.blu .logo-hdd .lt{fill:#F0EEE9} .scura .logo-hdd .lb:not([class*="lb-"]),.blu .logo-hdd .lb:not([class*="lb-"]){fill:#B9B6AF}
+</style>
+</head>
+<body>
+<!--
+  MODELLO PRESENTAZIONE HDD
+  Ogni <section class="slide"> è una schermata. Copia i blocchi che ti servono, cambia i testi, togli il resto.
+  Sfondi: class="slide" (chiaro), "slide rosa", "slide scura", "slide blu". Mai due slide di fila con lo stesso sfondo.
+  data-tono: "chiaro" per chiaro e rosa, "scuro" per scura e blu.
+  data-passo: 0 = nessun percorso in alto; 1..5 = la slide fa parte del percorso e accende quel passo nella testata.
+  Animazioni: data-anim="titolo" | "sali" | "righe" | "passi" | "parole". Ripartono ogni volta che si torna sulla slide.
+-->
+
+<!-- Percorso in alto: compare solo sulle slide con data-passo da 1 a 5. Togli l'intero header se non serve. -->
+<header class="testata" aria-label="Il percorso">
+  <ol>
+    <li data-tappa="1">1 · Primo passo</li>
+    <li data-tappa="2">2 · Secondo</li>
+    <li data-tappa="3">3 · Terzo</li>
+    <li data-tappa="4">4 · Quarto</li>
+    <li data-tappa="5">5 · Quinto</li>
+  </ol>
+</header>
+<nav class="contatore" aria-label="Navigazione">
+  <button type="button" id="prec" aria-label="Schermata precedente">↑</button>
+  <span id="conta">01 / 01</span>
+  <button type="button" id="succ" aria-label="Schermata successiva">↓</button>
+</nav>
+
+<main>
+
+<!-- COPERTINA. Le barre sono quelle del logo HDD e si muovono da sole. -->
+<section class="slide scura copertina" data-tono="scuro" data-passo="0">
+  <svg class="logo-barre" viewBox="0 0 400 520" aria-hidden="true">
+    <g fill="#EEF1F4">
+      <rect class="b" x="10" y="150" width="9" height="370"/><rect class="b" x="44" y="235" width="9" height="285"/><rect class="b" x="77" y="107" width="9" height="413"/>
+      <rect class="b" x="110" y="53" width="9" height="467" fill="#A9ACD6"/><rect class="b" x="144" y="182" width="9" height="338" fill="#D4EB86"/><rect class="b" x="177" y="23" width="9" height="497" fill="#EBDDD7"/>
+      <rect class="b" x="210" y="215" width="9" height="305"/><rect class="b" x="245" y="8" width="9" height="512" fill="#7793C2"/><rect class="b" x="279" y="163" width="9" height="357"/>
+      <rect class="b" x="311" y="90" width="9" height="430"/><rect class="b" x="344" y="167" width="9" height="353"/><rect class="b" x="377" y="179" width="9" height="341"/>
+    </g>
+  </svg>
+  <div class="dentro">
+    <svg class="logo-hdd" role="img" aria-label="Hotel Digital Distribution" viewBox="0 0 1195 380"><rect class="lb" x="7.2" y="110" width="4.6" height="236"/><rect class="lb" x="29.2" y="172" width="4.6" height="174"/><rect class="lb" x="50.2" y="78" width="4.6" height="268"/><rect class="lb lb-lav" x="71.7" y="39" width="4.6" height="307"/><rect class="lb lb-lime" x="93.7" y="133" width="4.6" height="213"/><rect class="lb lb-cipria" x="115.2" y="17" width="4.6" height="329"/><rect class="lb" x="136.7" y="157" width="4.6" height="189"/><rect class="lb" x="159.2" y="6" width="4.6" height="340"/><rect class="lb" x="181.2" y="119" width="4.6" height="227"/><rect class="lb" x="202.2" y="66" width="4.6" height="280"/><rect class="lb" x="223.7" y="122" width="4.6" height="224"/><rect class="lb" x="245.2" y="131" width="4.6" height="215"/><text class="lt lt-h" x="267.5" y="225">HOTEL</text><text class="lt-d" x="268" y="339">digital</text><text class="lt lt-s" x="595" y="339">distribution</text></svg>
+    <p class="occhiello">Nome dell’evento · Luogo · data</p>
+    <h1 class="titolo" data-anim="titolo">Il titolo dell’intervento <span class="seguito">e la seconda riga in corsivo</span></h1>
+    <p class="testo">Nome Cognome · Hotel Digital Distribution</p>
+    <p class="suggerimento">Scorri, oppure <kbd>↓</kbd> <kbd>spazio</kbd></p>
+  </div>
+</section>
+
+<!-- DIVISORIO DI CAPITOLO. Titolo grande, una riga sotto. -->
+<section class="slide rosa" data-tono="chiaro" data-passo="0">
+  <div class="dentro">
+    <p class="occhiello">Prima parte</p>
+    <h2 class="titolo grande" data-anim="titolo">Il nome del capitolo. <span class="seguito">Cosa vedremo, in una frase.</span></h2>
+    <p class="testo">Una riga che spiega perché questa parte conta per chi è in sala.</p>
+  </div>
+</section>
+
+<!-- SCHERMO RICOSTRUITO + CONCETTO. La domanda si scrive da sola, le risposte arrivano, una si accende. -->
+<section class="slide" data-tono="chiaro" data-passo="1">
+  <div class="dentro">
+    <div class="due">
+      <div class="colonna">
+        <div class="schermo" data-anim="sali" data-vivo>
+          <div class="cornice"><i></i><i></i><i></i><span>Assistente AI</span></div>
+          <div class="corpo">
+            <p class="bolla" data-scrivi>La domanda che fa l’ospite, scritta come la scriverebbe lui.</p>
+            <p class="scrive" data-pensa>Sta scrivendo…</p>
+            <p data-risposta>La risposta comincia così:</p>
+            <div class="voce" data-risposta><span class="nome"><span class="osc" style="width:160px"></span></span><span>Prima struttura proposta, con il motivo.</span><span><span class="fonte">fonte citata</span></span></div>
+            <div class="voce" data-risposta data-accendi><span class="nome"><span class="osc" style="width:140px"></span></span><span>La struttura che vogliamo far notare.</span><span><span class="fonte">sito della struttura</span></span></div>
+          </div>
+        </div>
+        <p class="didascalia"><span class="ric">Ricostruzione</span> Da dove vengono i dati, con la data.</p>
+      </div>
+      <div class="colonna">
+        <h2 class="titolo" data-anim="titolo">Il concetto in una frase. <span class="seguito">La conseguenza, in corsivo.</span></h2>
+        <p class="testo">Due o tre righe al massimo. Il resto si dice a voce.</p>
+        <div class="prova"><span class="n">3 su 10</span><p>un numero con il suo significato in parole.</p></div>
+        <p class="didascalia">Fonte del numero, con la data.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NUMERI GRANDI. data-conta fa partire il contatore. -->
+<section class="slide scura" data-tono="scuro" data-passo="2">
+  <div class="dentro">
+    <p class="occhiello">Cosa è successo</p>
+    <h2 class="titolo" data-anim="titolo">Un risultato. <span class="seguito">La seconda riga.</span></h2>
+    <div class="cifre">
+      <div class="prova"><span class="n" data-conta="120">120</span><p>cosa misura il primo numero</p></div>
+      <div class="prova"><span class="n" data-conta="35">35</span><p>cosa misura il secondo numero</p></div>
+    </div>
+    <p class="didascalia">Periodo, fonte e cosa non è ancora misurato.</p>
+  </div>
+</section>
+
+<!-- FRASE DA RICORDARE. Si accende parola per parola. Classe "media" se è lunga. -->
+<section class="slide rosa" data-tono="chiaro" data-passo="0">
+  <div class="dentro">
+    <p class="parole media" data-anim="parole">Una frase sola, quella che vuoi che la sala si porti a casa.</p>
+    <ol class="filo" data-anim="righe" aria-label="Il ragionamento in tre passaggi">
+      <li><span>Primo</span><b>cosa succede</b></li>
+      <li><span>Poi</span><b class="vuoto">cosa manca</b></li>
+      <li><span>Risultato</span><b class="fuori">cosa si perde</b></li>
+    </ol>
+  </div>
+</section>
+
+<!-- BARRE ORIZZONTALI. --l è la lunghezza (la voce più grande al 95%). -->
+<section class="slide" data-tono="chiaro" data-passo="0">
+  <div class="dentro">
+    <p class="occhiello">Da dove arriva</p>
+    <h2 class="titolo" data-anim="titolo">Un dato a barre. <span class="seguito">Si legge da lontano.</span></h2>
+    <div class="barre-fonti" role="img" aria-label="Voce A 45%, voce B 30%, voce C 20%, voce D 5%">
+      <div class="riga-fonte"><span class="nome">Voce A</span><span class="traccia-f"><i style="--l:95%;background:var(--inchiostro)"></i></span><b>45%</b></div>
+      <div class="riga-fonte"><span class="nome">Voce B</span><span class="traccia-f"><i style="--l:63%;background:var(--az)"></i></span><b>30%</b></div>
+      <div class="riga-fonte"><span class="nome">Voce C</span><span class="traccia-f"><i style="--l:42%;background:var(--lav)"></i></span><b>20%</b></div>
+      <div class="riga-fonte evidenza"><span class="nome">Voce D</span><span class="traccia-f"><i style="--l:11%;background:var(--allarme)"></i></span><b>5%</b></div>
+    </div>
+    <p class="didascalia">Fonte e data.</p>
+  </div>
+</section>
+
+<!-- TABELLA DI CONFRONTO. La terza colonna è quella "buona". -->
+<section class="slide scura" data-tono="scuro" data-passo="0">
+  <div class="dentro">
+    <h2 class="titolo" data-anim="titolo">Due modi a confronto. <span class="seguito">Uno lo decidi tu.</span></h2>
+    <div class="tabella" data-anim="righe">
+      <div class="riga-t intesta"><span></span><span>Com’è</span><span>Come può essere</span></div>
+      <div class="riga-t"><b>Primo aspetto</b><span>La situazione di partenza.</span><span>Quello che cambia.</span></div>
+      <div class="riga-t"><b>Secondo aspetto</b><span>La situazione di partenza.</span><span>Quello che cambia.</span></div>
+      <div class="riga-t"><b>Terzo aspetto</b><span>La situazione di partenza.</span><span>Quello che cambia.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TRE COLONNE + SPUNTE. -->
+<section class="slide blu" data-tono="scuro" data-passo="0">
+  <div class="dentro">
+    <p class="occhiello">Come lavoriamo</p>
+    <h2 class="titolo" data-anim="titolo">Tre cose da guardare. <span class="seguito">In quest’ordine.</span></h2>
+    <div class="tre" data-anim="righe">
+      <div><p class="sigla">Uno</p><h3>Il primo punto</h3><p>Due righe che lo spiegano con un esempio vero.</p></div>
+      <div><p class="sigla">Due</p><h3>Il secondo punto</h3><p>Due righe che lo spiegano con un esempio vero.</p></div>
+      <div><p class="sigla">Tre</p><h3>Il terzo punto</h3><p>Due righe che lo spiegano con un esempio vero.</p></div>
+    </div>
+    <ul class="spunte">
+      <li>Una garanzia</li>
+      <li>Un’altra garanzia</li>
+    </ul>
+  </div>
+</section>
+
+<!-- PRIMA E DOPO. La linea scorre da sola, poi si trascina. Metti le catture in img/ e cambia i due src. -->
+<section class="slide" data-tono="chiaro" data-passo="0">
+  <div class="dentro">
+    <div class="due">
+      <div class="colonna">
+        <div class="confronta-foto" data-confronto>
+          <img src="img/esempio-dopo.jpg" width="1280" height="800" alt="Descrivi la versione nuova">
+          <div class="sopra-foto"><img src="img/esempio-prima.jpg" width="1280" height="800" alt="Descrivi la versione di prima"></div>
+          <span class="et et-prima">Prima</span><span class="et et-dopo">Dopo</span>
+          <input type="range" min="0" max="100" value="50" class="maniglia" aria-label="Sposta il confronto tra prima e dopo">
+        </div>
+        <p class="didascalia"><span class="ric">Vero</span> Quando sono state fatte le due catture. Trascina la linea per confrontarle.</p>
+      </div>
+      <div class="colonna">
+        <p class="occhiello">Prima e dopo · Nome della struttura</p>
+        <h2 class="titolo" data-anim="titolo">Cosa non andava. <span class="seguito">Il dato che lo dimostra.</span></h2>
+        <div class="metriche">
+          <div><span>Prima misura</span><b>61 → <em>85</em></b></div>
+          <div><span>Seconda misura</span><b>3,2 MB → <em>0,7 MB</em></b></div>
+          <div><span>Terza misura</span><b>89 → <em>100</em></b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CINQUE AZIONI. Su sfondo rosa i riquadri diventano chiari. -->
+<section class="slide rosa" data-tono="chiaro" data-passo="0">
+  <div class="dentro">
+    <p class="occhiello">Azioni</p>
+    <h2 class="titolo" data-anim="titolo">Cinque cose da fare. <span class="seguito">La seconda riga.</span></h2>
+    <ul class="cinque" data-anim="righe">
+      <li><span class="num">1</span>Una prova che si fa dal telefono.</li>
+      <li><span class="num">2</span>Una prova che si fa dal telefono.</li>
+      <li><span class="num">3</span>Una prova che si fa dal telefono.</li>
+      <li><span class="num">4</span>Una prova che si fa dal telefono.</li>
+      <li><span class="num">5</span>Una prova che si fa dal telefono.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- A TUTTA FOTO. La foto parte spenta e si accende, poi arriva la frase. Metti la foto in img/. -->
+<section class="slide scura con-foto foto-viva" data-tono="scuro" data-passo="0">
+  <img class="foto-sfondo" src="img/esempio-foto.jpg" alt="" aria-hidden="true">
+  <div class="dentro">
+    <p class="frase-sopra">La premessa, piccola.</p>
+    <p class="frase-grande">La frase che emoziona.</p>
+    <p class="testo">Una riga sola, sotto.</p>
+  </div>
+  <p class="credito-foto">Da dove viene la foto</p>
+</section>
+
+<!-- DATI IN 3D. Punti sparsi che diventano un grafico; se ne accendono tre. Usala una volta sola. -->
+<section class="slide blu con-3d" data-tono="scuro" data-passo="0">
+  <canvas class="tela-3d" aria-hidden="true"></canvas>
+  <div class="dentro">
+    <p class="occhiello">Il metodo</p>
+    <h2 class="titolo" data-anim="titolo">Il titolo sui dati. <span class="seguito">La seconda riga.</span></h2>
+    <p class="testo">Una riga su cosa guardiamo prima di fare qualsiasi cosa.</p>
+    <p class="didascalia">Didascalia del grafico.</p>
+  </div>
+</section>
+
+<!-- RIEPILOGO + FRASE FINALE. Le righe della frase arrivano una alla volta. -->
+<section class="slide scura riepilogo" data-tono="scuro" data-passo="0">
+  <div class="dentro">
+    <p class="occhiello">Riepilogo</p>
+    <h2 class="titolo" data-anim="titolo">Il riassunto in una riga. <span class="seguito">E perché conta.</span></h2>
+    <ol class="passi passi-chiari" data-anim="passi">
+      <li style="--c:var(--lav)"><b>Primo</b><span>Una riga.</span></li>
+      <li style="--c:var(--az)"><b>Secondo</b><span>Una riga.</span></li>
+      <li style="--c:var(--lime)"><b>Terzo</b><span>Una riga.</span></li>
+      <li style="--c:var(--cipria)"><b>Quarto</b><span>Una riga.</span></li>
+      <li style="--c:var(--fascia-t)"><b>Quinto</b><span>Una riga.</span></li>
+    </ol>
+    <div class="finale">
+      <p class="finale-1">L’attacco,</p>
+      <p class="finale-2">la frase che resta.</p>
+      <p class="finale-3">La chiusa.</p>
+    </div>
+  </div>
+</section>
+
+<!-- INVITO CON QR. Metti l'indirizzo in data-qr; il QR si disegna da solo. -->
+<section class="slide blu" data-tono="scuro" data-passo="0">
+  <div class="dentro">
+    <div class="due">
+      <div class="colonna">
+        <p class="occhiello">Dopo l’intervento</p>
+        <h2 class="titolo" data-anim="titolo">L’invito alla sala. <span class="seguito">Parliamone.</span></h2>
+        <p class="testo">Cosa può fare chi vuole approfondire, e dove trovarci.</p>
+        <p class="testo">Inquadra il codice. <b>hoteldigitaldistribution.it/contatti</b></p>
+      </div>
+      <div class="colonna qr-box">
+        <div class="qr" data-qr="https://hoteldigitaldistribution.it/contatti/?utm_source=nome-evento&amp;utm_medium=qr&amp;utm_campaign=nome-relatore" data-qr-testo="hoteldigitaldistribution.it/contatti" role="img" aria-label="Codice QR verso la pagina contatti di Hotel Digital Distribution"></div>
+        <p class="didascalia">Hotel Digital Distribution · contatti</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GRAZIE. -->
+<section class="slide scura chiusura" data-tono="scuro" data-passo="0">
+  <svg class="logo-barre" viewBox="0 0 400 520" aria-hidden="true">
+    <g fill="#EEF1F4">
+      <rect class="b2" x="10" y="150" width="9" height="370"/><rect class="b2" x="44" y="235" width="9" height="285"/><rect class="b2" x="77" y="107" width="9" height="413"/>
+      <rect class="b2" x="110" y="53" width="9" height="467" fill="#A9ACD6"/><rect class="b2" x="144" y="182" width="9" height="338" fill="#D4EB86"/><rect class="b2" x="177" y="23" width="9" height="497" fill="#EBDDD7"/>
+      <rect class="b2" x="210" y="215" width="9" height="305"/><rect class="b2" x="245" y="8" width="9" height="512" fill="#7793C2"/><rect class="b2" x="279" y="163" width="9" height="357"/>
+      <rect class="b2" x="311" y="90" width="9" height="430"/><rect class="b2" x="344" y="167" width="9" height="353"/><rect class="b2" x="377" y="179" width="9" height="341"/>
+    </g>
+  </svg>
+  <div class="dentro">
+    <h2 class="titolo" data-anim="titolo" style="font-size:clamp(64px,11vw,180px)"><span class="seguito">Grazie.</span></h2>
+    <p class="testo"><b>Nome Cognome</b> · Hotel Digital Distribution</p>
+    <p class="testo">sito · email</p>
+    <svg class="logo-hdd" role="img" aria-label="Hotel Digital Distribution" viewBox="0 0 1195 380"><rect class="lb" x="7.2" y="110" width="4.6" height="236"/><rect class="lb" x="29.2" y="172" width="4.6" height="174"/><rect class="lb" x="50.2" y="78" width="4.6" height="268"/><rect class="lb lb-lav" x="71.7" y="39" width="4.6" height="307"/><rect class="lb lb-lime" x="93.7" y="133" width="4.6" height="213"/><rect class="lb lb-cipria" x="115.2" y="17" width="4.6" height="329"/><rect class="lb" x="136.7" y="157" width="4.6" height="189"/><rect class="lb" x="159.2" y="6" width="4.6" height="340"/><rect class="lb" x="181.2" y="119" width="4.6" height="227"/><rect class="lb" x="202.2" y="66" width="4.6" height="280"/><rect class="lb" x="223.7" y="122" width="4.6" height="224"/><rect class="lb" x="245.2" y="131" width="4.6" height="215"/><text class="lt lt-h" x="267.5" y="225">HOTEL</text><text class="lt-d" x="268" y="339">digital</text><text class="lt lt-s" x="595" y="339">distribution</text></svg>
+  </div>
+</section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var totale = slides.length;
+  var conta = document.getElementById('conta');
+  var tappe = Array.prototype.slice.call(document.querySelectorAll('.testata li'));
+  var calmo = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var haGsap = typeof window.gsap !== 'undefined' && typeof window.ScrollTrigger !== 'undefined';
+  var lenis = null;
+  var fmt = function(n){ return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); };
+
+  function pad(n){ return (n < 10 ? '0' : '') + n; }
+  function segna(i){
+    var s = slides[i];
+    conta.textContent = pad(i + 1) + ' / ' + pad(totale);
+    document.body.dataset.tono = s.dataset.tono || 'chiaro';
+    document.body.dataset.passo = s.dataset.passo || '0';
+    document.documentElement.style.setProperty('--tono-testata', getComputedStyle(s).backgroundColor);
+    var p = parseInt(s.dataset.passo || '0', 10);
+    tappe.forEach(function(li){
+      var t = parseInt(li.dataset.tappa, 10);
+      li.classList.toggle('ora', t === p);
+      li.classList.toggle('fatta', p > 0 && t < p);
+    });
+  }
+  function vai(i){
+    i = Math.max(0, Math.min(totale - 1, i));
+    if (lenis) lenis.scrollTo(slides[i], {duration: 1.15, easing: function(t){ return 1 - Math.pow(1 - t, 4); }});
+    else slides[i].scrollIntoView({behavior: calmo ? 'auto' : 'smooth'});
+  }
+  function piuVicina(){
+    var meglio = 0, dist = Infinity;
+    slides.forEach(function(s, i){
+      var d = Math.abs(s.getBoundingClientRect().top);
+      if (d < dist) { dist = d; meglio = i; }
+    });
+    return meglio;
+  }
+  document.getElementById('succ').addEventListener('click', function(){ vai(piuVicina() + 1); });
+  document.getElementById('prec').addEventListener('click', function(){ vai(piuVicina() - 1); });
+  window.addEventListener('keydown', function(e){
+    if (e.target.closest && e.target.closest('button, input, textarea')) return;
+    if (['ArrowDown','PageDown',' ','ArrowRight'].indexOf(e.key) > -1) { e.preventDefault(); vai(piuVicina() + 1); }
+    if (['ArrowUp','PageUp','ArrowLeft'].indexOf(e.key) > -1) { e.preventDefault(); vai(piuVicina() - 1); }
+    if (e.key === 'Home') { e.preventDefault(); vai(0); }
+    if (e.key === 'End') { e.preventDefault(); vai(totale - 1); }
+  });
+
+  // QR: l'indirizzo sta in data-qr; senza la libreria resta l'indirizzo scritto
+  document.querySelectorAll('[data-qr]').forEach(function(box){
+    if (typeof window.qrcode === 'undefined') { box.textContent = box.dataset.qrTesto || box.dataset.qr; return; }
+    var q = qrcode(0, 'M'); q.addData(box.dataset.qr); q.make();
+    box.innerHTML = q.createSvgTag({cellSize: 8, margin: 0, scalable: true});
+  });
+
+  // prima e dopo: si trascina anche senza animazioni
+  document.querySelectorAll('[data-confronto]').forEach(function(box){
+    var r = box.querySelector('.maniglia');
+    r.addEventListener('input', function(){ if (box._tl) box._tl.kill(); box.style.setProperty('--taglio', r.value + '%'); });
+  });
+
+  segna(0);
+
+  if (!haGsap || calmo) {
+    window.addEventListener('scroll', function(){ segna(piuVicina()); }, {passive: true});
+    return;
+  }
+
+  gsap.registerPlugin(ScrollTrigger);
+  if (window.SplitText) gsap.registerPlugin(SplitText);
+  // le animazioni ripartono ogni volta che si torna su una slide, avanti o indietro
+  ScrollTrigger.defaults({toggleActions: 'restart none restart none'});
+
+  if (typeof window.Lenis !== 'undefined') {
+    lenis = new Lenis({lerp: 0.09, wheelMultiplier: 0.9});
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(function(t){ lenis.raf(t * 1000); });
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  slides.forEach(function(s, i){
+    ScrollTrigger.create({trigger: s, start: 'top 55%', end: 'bottom 55%', onToggle: function(self){ if (self.isActive) segna(i); }});
+  });
+
+  // copertina: le barre del logo come un equalizzatore
+  gsap.from('.copertina .b', {scaleY: 0, transformOrigin: '50% 100%', duration: 1.1, ease: 'expo.out', stagger: {each: 0.05, from: 'random'}, delay: .2});
+  gsap.to('.copertina .b', {scaleY: function(){ return 0.72 + Math.random() * 0.28; }, transformOrigin: '50% 100%', duration: 1.6, ease: 'sine.inOut', yoyo: true, repeat: -1, stagger: {each: 0.12, from: 'random'}, delay: 1.4});
+
+  // titoli: righe che salgono
+  document.querySelectorAll('[data-anim="titolo"]').forEach(function(el){
+    var bersagli = el;
+    if (window.SplitText) bersagli = new SplitText(el, {type: 'lines', linesClass: 'riga-titolo'}).lines;
+    gsap.from(bersagli, {yPercent: 60, opacity: 0, duration: 1, ease: 'expo.out', stagger: 0.09, scrollTrigger: {trigger: el, start: 'top 85%'}});
+  });
+  document.querySelectorAll('[data-anim="sali"]').forEach(function(el){
+    gsap.from(el, {y: 70, opacity: 0, rotateX: 8, transformPerspective: 1200, duration: 1.2, ease: 'expo.out', scrollTrigger: {trigger: el, start: 'top 85%'}});
+  });
+  document.querySelectorAll('[data-anim="righe"]').forEach(function(el){
+    gsap.from(el.children, {y: 40, opacity: 0, duration: .9, ease: 'expo.out', stagger: 0.12, scrollTrigger: {trigger: el, start: 'top 80%'}});
+  });
+  document.querySelectorAll('[data-anim="passi"]').forEach(function(el){
+    gsap.from(el.children, {y: 30, opacity: 0, duration: .8, ease: 'expo.out', stagger: 0.12, scrollTrigger: {trigger: el, start: 'top 80%'}});
+  });
+
+  // contatori
+  document.querySelectorAll('[data-conta]').forEach(function(el){
+    var fine = parseFloat(el.dataset.conta), suff = el.dataset.suffisso || '', o = {v: 0};
+    gsap.to(o, {v: fine, duration: fine > 100 ? 2 : 1.4, ease: 'power3.out', scrollTrigger: {trigger: el, start: 'top 88%'},
+      onUpdate: function(){ el.textContent = fmt(Math.round(o.v)) + suff; }});
+  });
+
+  // schermi ricostruiti: la domanda si scrive, le risposte arrivano, una si accende
+  document.querySelectorAll('.schermo[data-vivo]').forEach(function(scr){
+    var domanda = scr.querySelector('[data-scrivi]'), pensa = scr.querySelector('[data-pensa]');
+    var risposte = scr.querySelectorAll('[data-risposta]'), accesi = scr.querySelectorAll('[data-accendi]');
+    var tl = gsap.timeline({scrollTrigger: {trigger: scr, start: 'top 70%'}});
+    if (domanda) {
+      var testo = domanda.textContent, o = {n: 0};
+      tl.add(function(){ domanda.textContent = ''; o.n = 0; }, 0)
+        .to(o, {n: testo.length, duration: testo.length / 60, ease: 'none', onUpdate: function(){ domanda.textContent = testo.slice(0, Math.round(o.n)); }}, 0.2);
+    }
+    if (pensa) tl.fromTo(pensa, {opacity: 0, height: 'auto'}, {opacity: 1, duration: .25}).to(pensa, {opacity: .35, duration: .3, yoyo: true, repeat: 1}).to(pensa, {height: 0, opacity: 0, duration: .2});
+    if (risposte.length) tl.from(risposte, {y: 18, opacity: 0, duration: .5, ease: 'power3.out', stagger: .2});
+    accesi.forEach(function(a){
+      tl.fromTo(a, {outlineColor: 'rgba(18,58,92,0)', backgroundColor: 'rgba(212,235,134,0)'}, {outlineColor: 'rgba(18,58,92,1)', backgroundColor: 'rgba(212,235,134,.35)', duration: .6, ease: 'power2.out'});
+      a.classList.add('acceso');
+    });
+  });
+
+  // testi che entrano: occhielli, paragrafi e didascalie, slide per slide
+  slides.forEach(function(sl){
+    if (sl.classList.contains('copertina') || sl.classList.contains('foto-viva')) return;
+    var el = Array.prototype.filter.call(sl.querySelectorAll('.occhiello, .testo, .sottotitolo, .didascalia, .chiusa, .credito-foto, .spunte'), function(e){ return !e.closest('[data-anim]') && !e.closest('.schermo'); });
+    if (el.length) gsap.from(el, {opacity: 0, y: 18, duration: .7, ease: 'power2.out', stagger: .12, delay: .3, scrollTrigger: {trigger: sl, start: 'top 60%'}});
+  });
+
+  // frasi che si accendono parola per parola
+  document.querySelectorAll('[data-anim="parole"]').forEach(function(el){
+    el.innerHTML = el.textContent.split(' ').map(function(p){ return '<span>' + p + '</span>'; }).join(' ');
+    var c = getComputedStyle(el).color.match(/\d+/g).slice(0, 3).join(',');
+    gsap.fromTo(el.children, {color: 'rgba(' + c + ',0.15)'}, {color: 'rgba(' + c + ',1)', duration: .5, stagger: .06, ease: 'power1.out', clearProps: 'color', scrollTrigger: {trigger: el, start: 'top 75%'}});
+  });
+
+  // frase finale del riepilogo: tre righe, una dopo l'altra
+  document.querySelectorAll('.finale').forEach(function(f){
+    gsap.timeline({scrollTrigger: {trigger: f, start: 'top 90%'}})
+      .from(f.querySelector('.finale-1'), {opacity: 0, y: 24, duration: .7, ease: 'power2.out', delay: 1.2})
+      .from(f.querySelector('.finale-2'), {opacity: 0, y: 30, scale: .96, transformOrigin: 'left bottom', duration: 1, ease: 'expo.out'}, '+=.35')
+      .from(f.querySelector('.finale-3'), {opacity: 0, x: -16, duration: .6, ease: 'power2.out'}, '+=.6');
+  });
+
+  // barre che crescono
+  document.querySelectorAll('.barre-fonti').forEach(function(b){
+    gsap.from(b.querySelectorAll('.traccia-f i'), {scaleX: 0, duration: 1.1, ease: 'expo.out', stagger: .12, scrollTrigger: {trigger: b, start: 'top 80%'}});
+  });
+  document.querySelectorAll('.barre-prezzo').forEach(function(b){
+    gsap.from(b.querySelectorAll('.pieno'), {scaleX: 0, duration: 1.4, ease: 'expo.out', stagger: .25, scrollTrigger: {trigger: b, start: 'top 80%'}});
+  });
+
+  // catture vere: si aprono dal basso
+  document.querySelectorAll('.cattura').forEach(function(img){
+    gsap.from(img, {clipPath: 'inset(100% 0 0 0)', duration: 1.3, ease: 'expo.inOut', scrollTrigger: {trigger: img, start: 'top 80%'}});
+  });
+
+  // prima e dopo: la linea scorre da sola, poi si trascina
+  document.querySelectorAll('[data-confronto]').forEach(function(box){
+    var r = box.querySelector('.maniglia'), stato = {v: 100};
+    function metti(v){ box.style.setProperty('--taglio', v + '%'); r.value = Math.round(v); }
+    metti(100);
+    box._tl = gsap.timeline({scrollTrigger: {trigger: box, start: 'top 65%'}, onStart: function(){ stato.v = 100; }});
+    box._tl.to(stato, {v: 12, duration: 1.6, ease: 'power3.inOut', onUpdate: function(){ metti(stato.v); }})
+      .to(stato, {v: 50, duration: 1, ease: 'power2.out', onUpdate: function(){ metti(stato.v); }}, '+=.4');
+  });
+
+  // a tutta foto: la foto parte spenta e si accende, poi arriva la frase parola per parola
+  document.querySelectorAll('.foto-viva').forEach(function(sez){
+    var foto = sez.querySelector('.foto-sfondo'), uno = sez.querySelector('.frase-sopra'), due = sez.querySelector('.frase-grande'), testo = sez.querySelector('.testo');
+    due.innerHTML = due.textContent.split(' ').map(function(p){ return '<span>' + p + '</span>'; }).join(' ');
+    var tl = null;
+    function parti(){
+      if (tl) tl.kill();
+      tl = gsap.timeline();
+      tl.fromTo(foto, {scale: 1.2, filter: 'grayscale(1) brightness(.35) blur(6px)'}, {scale: 1.04, filter: 'grayscale(0) brightness(1) blur(0px)', duration: 5, ease: 'power2.out'}, 1.6);
+      if (uno) tl.fromTo(uno, {opacity: 0, y: 24}, {opacity: 1, y: 0, duration: .8, ease: 'power2.out'}, .3).to(uno, {opacity: .5, duration: 1}, 2.2);
+      tl.fromTo(due.children, {opacity: 0, y: 50, filter: 'blur(10px)'}, {opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.1, ease: 'expo.out', stagger: .22}, 2.6);
+      if (testo) tl.fromTo(testo, {opacity: 0, y: 16}, {opacity: 1, y: 0, duration: .8, ease: 'power2.out'}, 4.4);
+    }
+    ScrollTrigger.create({trigger: sez, start: 'top 55%', end: 'bottom 45%', onEnter: parti, onEnterBack: parti});
+  });
+
+  // grazie: le barre salgono come un grafico
+  document.querySelectorAll('.chiusura').forEach(function(c){
+    gsap.from(c.querySelectorAll('.b2'), {scaleY: 0, transformOrigin: '50% 100%', duration: 1.2, ease: 'expo.out', stagger: .06, scrollTrigger: {trigger: c, start: 'top 60%'}});
+  });
+
+  window.addEventListener('load', function(){ ScrollTrigger.refresh(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ ScrollTrigger.refresh(); });
+})();
+
+// dati in 3D: punti sparsi che si mettono in ordine, poi si accendono solo quelli che contano
+document.querySelectorAll('.con-3d').forEach(function(sez){
+  var tela = sez.querySelector('.tela-3d');
+  if (!tela || typeof THREE === 'undefined') return;
+  var renderer;
+  try { renderer = new THREE.WebGLRenderer({canvas: tela, alpha: true, antialias: true}); } catch (e) { return; }
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  var calmo = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var scena = new THREE.Scene(), camera = new THREE.PerspectiveCamera(35, 1, 0.1, 200);
+  camera.position.set(0, 4.2, 13); camera.lookAt(0, 1.6, 0);
+  var gruppo = new THREE.Group(); scena.add(gruppo);
+  var COL = 14, PROF = 6, PASSO = 0.55, ALTO = 0.15, contano = {'3-2': 1, '8-1': 1, '11-3': 1};
+  var ordine = [], acceso = [];
+  for (var i = 0; i < COL; i++) for (var j = 0; j < PROF; j++) {
+    var h = 3 + Math.round((Math.sin(i * 1.7 + j * 2.3) * 0.5 + 0.5) * 14 + (i % 4) * 2), su = contano[i + '-' + j];
+    if (su) h += 12;
+    for (var k = 0; k < h; k++) for (var d = 0; d < 4; d++) {
+      ordine.push((i - (COL - 1) / 2) * PASSO + (d % 2 ? .09 : -.09), k * ALTO, (j - (PROF - 1) / 2) * PASSO + (d < 2 ? .09 : -.09));
+      acceso.push(su ? 1 : 0);
+    }
+  }
+  var n = acceso.length, caos = new Float32Array(n * 3), pos = new Float32Array(n * 3), col = new Float32Array(n * 3), ritardo = new Float32Array(n), fase = new Float32Array(n);
+  for (var q = 0; q < n; q++) {
+    caos[q * 3] = (Math.random() - 0.5) * 26; caos[q * 3 + 1] = (Math.random() - 0.5) * 10 + 1.5; caos[q * 3 + 2] = (Math.random() - 0.5) * 10;
+    ritardo[q] = Math.random() * 0.45; fase[q] = Math.random() * Math.PI * 2;
+  }
+  pos.set(caos);
+  var geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+  var c = document.createElement('canvas'); c.width = c.height = 64;
+  var g = c.getContext('2d'), gr = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(.45, 'rgba(255,255,255,.9)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
+  g.fillStyle = gr; g.fillRect(0, 0, 64, 64);
+  gruppo.add(new THREE.Points(geo, new THREE.PointsMaterial({size: 0.12, map: new THREE.CanvasTexture(c), vertexColors: true, transparent: true, depthWrite: false, sizeAttenuation: true})));
+  var lav = new THREE.Color(0xA9ACD6), spento = new THREE.Color(0x4A6C8E), lime = new THREE.Color(0xD4EB86);
+  function liscio(t){ return t < 0 ? 0 : t > 1 ? 1 : t * t * (3 - 2 * t); }
+  function misura(){
+    var w = tela.clientWidth, h = tela.clientHeight;
+    if (!w || !h) return;
+    renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+    var largo = 2 * Math.tan(THREE.MathUtils.degToRad(17.5)) * 13 * camera.aspect;
+    gruppo.position.x = w >= 900 ? largo * 0.23 : 0;
+    var s = w >= 900 ? 0.82 : 0.75; gruppo.scale.set(s, s, s);
+  }
+  misura(); window.addEventListener('resize', misura);
+  var visibile = false, inizio = 0, idRaf = 0;
+  function disegna(ora){
+    var tempo = ora / 1000, p = calmo ? 1.6 : (tempo - inizio) / 3.2, luce = liscio((p - 1.1) / 0.6);
+    for (var q = 0; q < n; q++) {
+      var e = liscio((p - ritardo[q]) / 0.55), vaga = (1 - e) * 0.25, fine = acceso[q] ? lime : spento;
+      pos[q * 3] = caos[q * 3] + (ordine[q * 3] - caos[q * 3]) * e + Math.sin(tempo * 0.7 + fase[q]) * vaga;
+      pos[q * 3 + 1] = caos[q * 3 + 1] + (ordine[q * 3 + 1] - caos[q * 3 + 1]) * e + Math.cos(tempo * 0.6 + fase[q]) * vaga;
+      pos[q * 3 + 2] = caos[q * 3 + 2] + (ordine[q * 3 + 2] - caos[q * 3 + 2]) * e;
+      col[q * 3] = lav.r + (fine.r - lav.r) * luce; col[q * 3 + 1] = lav.g + (fine.g - lav.g) * luce; col[q * 3 + 2] = lav.b + (fine.b - lav.b) * luce;
+    }
+    geo.attributes.position.needsUpdate = true; geo.attributes.color.needsUpdate = true;
+    gruppo.rotation.y = calmo ? -0.5 : -0.75 + Math.sin(tempo * 0.12) * 0.35; gruppo.rotation.x = 0.05;
+    renderer.render(scena, camera);
+    if (visibile) idRaf = requestAnimationFrame(disegna);
+  }
+  new IntersectionObserver(function(voci){
+    voci.forEach(function(v){
+      if (v.isIntersecting && !visibile) { visibile = true; misura(); inizio = performance.now() / 1000; idRaf = requestAnimationFrame(disegna); }
+      else if (!v.isIntersecting && visibile) { visibile = false; cancelAnimationFrame(idRaf); }
+    });
+  }, {threshold: 0.35}).observe(sez);
+});
+</script>
+</body>
+</html>
